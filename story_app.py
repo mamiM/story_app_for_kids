@@ -10,13 +10,18 @@ character = st.text_input("Who is the main character?")
 setting = st.text_input("Where does the story take place?")
 tone = st.selectbox("What kind of story?", ["Funny", "Adventure", "Magical", "Sleepy"])
 
+max_words = 150  # define this before the with, it's not code that needs the spinner
+
 if st.button("✨ Tell me a story!"):
     if not character or not setting:
         st.warning("Please enter a character and setting.")
     else:
-        with st.spinner("Writing your magical story..."):
-            prompt = f"Write a short {tone.lower()} story for a child about a {character} in {setting}. The story should be cute, engaging, and appropriate for young children."
-
+        with st.spinner("Writing your magical story..."):    
+            prompt = (
+                f"Write a short {tone.lower()} story for a child about a {character} in {setting}. "
+                f"The story should be cute, engaging, and appropriate for young children. "
+                f"Limit the story to no more than {max_words} words."
+            )
             try:
                 response = client.chat.completions.create(
                     model="gpt-3.5-turbo",
@@ -25,9 +30,8 @@ if st.button("✨ Tell me a story!"):
                         {"role": "user", "content": prompt}
                     ],
                     temperature=0.7,
-                    max_tokens=300
+                    max_tokens=500
                 )
-
                 story = response.choices[0].message.content
                 st.success("Here's your story!")
                 st.markdown(f"""
@@ -40,6 +44,5 @@ if st.button("✨ Tell me a story!"):
 <p>{story}</p>
 </div>
 """, unsafe_allow_html=True)
-
             except Exception as e:
                 st.error(f"Error: {e}")
