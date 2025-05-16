@@ -13,7 +13,7 @@ It generates stories with elements you input, such as the character, the locatio
 ## How to run
 Clone this repository:
 ```bash
-git clone https://github.com/MamiM/story_app_for_kids.git
+git clone https://github.com/mamiM/story_app_for_kids.git
 cd story_app_for_kids
 ```
 
